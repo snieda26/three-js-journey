@@ -9,33 +9,11 @@ const scene = new THREE.Scene();
 const group = new THREE.Group();
 scene.add(group);
 
-// Change group position
-group.position.set(1, 1.5);
-group.rotation.x = Math.PI * 0.25;
-
 const cube1 = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({ color: "red" }),
 );
-cube1.position.x = -1.5;
 group.add(cube1);
-
-const cube2 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: "green" }),
-);
-group.add(cube2);
-
-const cube3 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: "blue" }),
-);
-cube3.position.x = 1.5;
-group.add(cube3);
-
-// Axes helper (positive: red - x, green - y, blue - z)
-const axesHelper = new THREE.AxesHelper();
-scene.add(axesHelper);
 
 // Sizes
 const sizes = {
@@ -56,4 +34,27 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(sizes.width, sizes.height);
 
-renderer.render(scene, camera);
+// function trick() {
+//   const currentTime = Date.now();
+//   const deltaTime = currentTime - time;
+
+//   time = currentTime;
+
+//   cube1.rotation.y -= 0.001 * deltaTime;
+//   renderer.render(scene, camera);
+//   window.requestAnimationFrame(trick);
+// }
+
+let clock = new THREE.Clock();
+
+function trick() {
+  const elapsedTime = clock.getElapsedTime();
+  console.log(elapsedTime);
+
+  cube1.rotation.y = elapsedTime;
+
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(trick);
+}
+
+trick();
