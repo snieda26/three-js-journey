@@ -1,44 +1,37 @@
 import * as THREE from "three";
 
-console.log(THREE);
-
 const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
 
-// Box
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: "red" });
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+// Group
+const group = new THREE.Group();
+scene.add(group);
 
-mesh.position.x = -1.1;
-mesh.position.y = 1;
-mesh.position.z = -1;
+// Change group position
+group.position.set(1, 1.5);
+group.rotation.x = Math.PI * 0.25;
 
-// Change size
-mesh.scale.x = 1;
-mesh.scale.y = 1;
-mesh.scale.z = 1;
-mesh.scale.set(1, 1, 1);
+const cube1 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: "red" }),
+);
+cube1.position.x = -1.5;
+group.add(cube1);
 
-// Rotation
-mesh.rotation.reorder("YXZ");
-mesh.rotation.x = Math.PI * 0.4;
-mesh.rotation.y = Math.PI * 0.4;
+const cube2 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: "green" }),
+);
+group.add(cube2);
 
-// Get distance from camera to element - position.length()
-console.log(mesh.position.length());
-
-// Get distacnce from object to v (provided Vector3)
-console.log(mesh.position.distanceTo(new THREE.Vector3()));
-
-// Normalize position (put position 0,0,0)
-mesh.position.normalize();
-
-// Set position method
-mesh.position.set(1, 1, 1);
+const cube3 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: "blue" }),
+);
+cube3.position.x = 1.5;
+group.add(cube3);
 
 // Axes helper (positive: red - x, green - y, blue - z)
 const axesHelper = new THREE.AxesHelper();
@@ -55,9 +48,6 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 1);
 scene.add(camera);
 
 camera.position.z = 3;
-
-// Move camera to Vector3 position
-camera.lookAt(mesh.position);
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
