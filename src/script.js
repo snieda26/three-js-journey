@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import gsap from "gsap";
 
 const canvas = document.querySelector("canvas.webgl");
 
@@ -45,15 +46,17 @@ renderer.setSize(sizes.width, sizes.height);
 //   window.requestAnimationFrame(trick);
 // }
 
+gsap.to(cube1.position, { duration: 1, delay: 1, x: 2 });
+gsap.to(cube1.position, { duration: 1, delay: 2, x: 0 });
+
 let clock = new THREE.Clock();
 
 function trick() {
   const elapsedTime = clock.getElapsedTime();
-  console.log(elapsedTime);
 
   cube1.rotation.y = elapsedTime;
-
   renderer.render(scene, camera);
+
   window.requestAnimationFrame(trick);
 }
 
