@@ -14,6 +14,7 @@ const cube1 = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({ color: "red" }),
 );
+cube1.position.y = 1.5;
 group.add(cube1);
 
 // Sizes
@@ -23,10 +24,25 @@ const sizes = {
 };
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 1);
+// const camera = new THREE.PerspectiveCamera(
+//   75,
+//   sizes.width / sizes.height,
+//   0.1,
+//   100,
+// );
+const aspectRatio = sizes.width / sizes.height;
+const camera = new THREE.OrthographicCamera(
+  -1 * aspectRatio,
+  1 * aspectRatio,
+  1,
+  -1,
+  0.1,
+  100,
+);
 scene.add(camera);
 
-camera.position.z = 3;
+camera.position.set(2, 2, 2);
+camera.lookAt(cube1.position);
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
