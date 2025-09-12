@@ -3,14 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const canvas = document.querySelector("canvas.webgl");
 
-const cursor = {
-  x: 0,
-  y: 0,
-};
-document.addEventListener("mousemove", (event) => {
-  cursor.x = event.clientX / sizes.width - 0.5;
-  cursor.y = event.clientY / sizes.height - 0.5;
-});
+
 
 // Scene
 const scene = new THREE.Scene();
@@ -27,9 +20,35 @@ group.add(cube1);
 
 // Sizes
 const sizes = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
+
+window.addEventListener('resize', () => {
+  console.log('resize')
+  sizes.width = window.innerWidth
+  sizes.height = window.innerHeight
+
+
+  // Update camera
+  camera.aspect = sizes.width / sizes.height
+  camera.updateProjectionMatrix()
+
+
+  // Update the renderer
+  renderer.setSize(sizes.width, sizes.height)
+})
+
+
+// open/close full screen mode
+window.addEventListener('dblclick', () => {
+  if(!document.fullscreenElement) {
+    canvas.requestFullscreen()
+  } else {
+    document.exitFullscreen()
+  }
+})
+
 
 // Camera
 const camera = new THREE.PerspectiveCamera(
@@ -48,8 +67,10 @@ const renderer = new THREE.WebGLRenderer({
 });
 
 renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 const controls = new OrbitControls(camera, canvas);
+controls.enabled = true;
 controls.enableDamping = true;
 
 function trick() {
