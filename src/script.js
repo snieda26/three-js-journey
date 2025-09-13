@@ -12,11 +12,41 @@ const scene = new THREE.Scene();
 const group = new THREE.Group();
 scene.add(group);
 
-const cube1 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: "red" }),
-);
-group.add(cube1);
+// const cube1 = new THREE.Mesh(
+//   new THREE.BoxGeometry(1, 1, 1, 2, 2, 2),
+//   new THREE.MeshBasicMaterial({ color: "red", wireframe: true }),
+// );
+// group.add(cube1);
+
+// const positionsArray = new Float32Array([
+//   0,0,0,
+//   0,1,0,
+//   1,0,0
+// ])
+
+// const positionAttribute = new THREE.BufferAttribute(positionsArray, 3)
+
+const geometry = new THREE.BufferGeometry()
+
+const count = 5000;
+const positionsArray = new Float32Array(count * 3 * 3)
+
+for(let i = 0; i < count * 3 * 3; i++) {
+  positionsArray[i] = Math.random() - 0.5
+}
+
+
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
+geometry.setAttribute('position', positionsAttribute)
+
+
+const material = new THREE.MeshBasicMaterial({
+  color: 'red',
+  wireframe: true
+})
+
+const mesh = new THREE.Mesh(geometry, material)
+scene.add(mesh)
 
 // Sizes
 const sizes = {
